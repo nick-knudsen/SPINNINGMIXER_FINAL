@@ -10,7 +10,6 @@ class API_Data_Access_Object:
 		"""
 		this_files_dir = os.path.dirname(os.path.abspath(__file__))
 		api_df = pd.read_csv(filepath_or_buffer=this_files_dir+"/../../DOCS/api_descriptions.csv", index_col=False)
-		print(api_df)
 		return api_df
 
 # EOF
