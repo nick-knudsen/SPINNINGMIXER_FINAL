@@ -1,0 +1,6 @@
+﻿API,METHOD,DESCRIPTION
+api/help,"POST, GET",Returns all the API's and their descriptions
+api/api-html-table,"POST, GET",Returns all the API's and their descriptions in HTML table
+api/download-preliminary-proposal,GET,Allows client to download preliminary proposal (.docx)
+api/download-abstact,GET,Allows client to download abstract (.docx)
+api/download-analysis,GET,Allows client to download full analysis (.docx)

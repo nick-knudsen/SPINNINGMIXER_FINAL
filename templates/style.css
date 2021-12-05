@@ -194,6 +194,7 @@ figure {
     right: 10%;
   } 
 }
+
 @media (max-width: 768px) {
   .carousel-caption {
     top: 45%;
@@ -221,6 +222,7 @@ figure {
     position: relative;
   } 
 }
+
 @media (max-width: 576px) {
   .carousel-caption {
     top: 40%;
@@ -250,9 +252,6 @@ figure {
   } 
 }
 
-
-
-
 /*---Firefox Bug Fix --*/
 .carousel-item {
   transition: -webkit-transform 0.5s ease;
@@ -263,12 +262,10 @@ figure {
   height: 79vh;
 }
 
-
 /*--- Bootstrap Padding Fix --*/
 [class*="col-"] {
     padding: 1rem;
 }
-
 
 /*
 Extra small (xs) devices (portrait phones, less than 576px)
@@ -304,8 +301,4 @@ Extra (xl) large devices (large desktops, 1200px and up)
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
-
-
-
-
 
