@@ -4,3 +4,4 @@ api/api-html-table,"POST, GET",Returns all the API's and their descriptions in H
 api/download-preliminary-proposal,GET,Allows client to download preliminary proposal (.docx)
 api/download-abstact,GET,Allows client to download abstract (.docx)
 api/download-analysis,GET,Allows client to download full analysis (.docx)
+api/download-api-csv,GET,Allows client to download CSV of api descriptions (.csv)

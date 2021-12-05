@@ -13,6 +13,7 @@ from BLL.API.api_business_logic_layer import API_Business_Logic_Layer_Object
 
 api = Blueprint("api", __name__, url_prefix="/api")
 api_bll = API_Business_Logic_Layer_Object()
+path = os.getcwd()
 
 @api.route("/help", methods=["POST", "GET"])
 def help():
@@ -35,10 +36,19 @@ def download_preliminary_proposal():
 	"""
 	Allows client to download preliminary proposal (.docx)
 	"""
-	path = os.getcwd()
 	return send_file(path+"/DOCS/preliminary_proposal.docx",
 					mimetype='docx',
 					attachment_filename='SPINNINGMIXER_preliminary_proposal.docx',
+					as_attachment=True)
+
+@api.route("/download-api-csv", methods=["GET"])
+def download_api_csv():
+	"""
+	Allows client to download CSV of API descriptions (.csv)
+	"""
+	return send_file(path+"/DOCS/api_descriptions.csv",
+					mimetype='csv',
+					attachment_filename='SPINNINGMIXER_api_descriptions.csv',
 					as_attachment=True)
 
 @api.route("/download-abstact", methods=["GET"])
@@ -47,7 +57,6 @@ def download_abstract():
 	Allows client to download abstract (.docx)
 	"""
 	#@TODO: Finish
-	path = os.getcwd()
 	return send_file(path+"/DOCS/abstract.docx",
 					mimetype='docx',
 					attachment_filename='SPINNINGMIXER_abstract.docx',
@@ -58,10 +67,9 @@ def download_analysis():
 	"""
 	Allows client to download full analysis (.docx)
 	"""
-	path = os.getcwd()
 	return send_file(path+"/DOCS/analysis.docx",
 					mimetype='docx',
 					attachment_filename='SPINNINGMIXER_analysis.docx',
 					as_attachment=True)
-	
+
 # EOF
