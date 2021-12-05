@@ -51,12 +51,11 @@ def download_api_csv():
 					attachment_filename='SPINNINGMIXER_api_descriptions.csv',
 					as_attachment=True)
 
-@api.route("/download-abstact", methods=["GET"])
+@api.route("/download-abstract", methods=["GET"])
 def download_abstract():
 	"""
 	Allows client to download abstract (.docx)
 	"""
-	#@TODO: Finish
 	return send_file(path+"/DOCS/abstract.docx",
 					mimetype='docx',
 					attachment_filename='SPINNINGMIXER_abstract.docx',
