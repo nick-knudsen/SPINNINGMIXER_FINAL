@@ -35,8 +35,11 @@ def download_preliminary_proposal():
 	"""
 	Allows client to download preliminary proposal (.docx)
 	"""
-	#@TODO: Finish
-	return "foo"
+	path = os.getcwd()
+	return send_file(path+"/DOCS/preliminary_proposal.docx",
+					mimetype='docx',
+					attachment_filename='SPINNINGMIXER_preliminary_proposal.docx',
+					as_attachment=True)
 
 @api.route("/download-abstact", methods=["GET"])
 def download_abstract():
@@ -44,14 +47,21 @@ def download_abstract():
 	Allows client to download abstract (.docx)
 	"""
 	#@TODO: Finish
-	return "foo"
+	path = os.getcwd()
+	return send_file(path+"/DOCS/abstract.docx",
+					mimetype='docx',
+					attachment_filename='SPINNINGMIXER_abstract.docx',
+					as_attachment=True)
 
 @api.route("/download-analysis", methods=["GET"])
 def download_analysis():
 	"""
 	Allows client to download full analysis (.docx)
 	"""
-	#@TODO: Finish
-	return "foo"
-
+	path = os.getcwd()
+	return send_file(path+"/DOCS/analysis.docx",
+					mimetype='docx',
+					attachment_filename='SPINNINGMIXER_analysis.docx',
+					as_attachment=True)
+	
 # EOF
