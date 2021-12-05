@@ -141,7 +141,6 @@ function carousel_button_handling() {
 
 	// Explore carousel button listener
 	$('#carousel-explore-button').click(function() {
-		console.log("clicked explore button in carousel");
 		$('#navbar-home-li').removeClass('active');
 		$('#navbar-about-li').removeClass('active');
 		$('#navbar-explore-li').addClass('active');
@@ -153,7 +152,6 @@ function carousel_button_handling() {
 
 	// Learn More carousel button listener
 	$('#carousel-learn-more-button').click(function() {
-		console.log("clicked learn more button in carousel");
 		$('#navbar-home-li').removeClass('active');
 		$('#navbar-about-li').addClass('active');
 		$('#navbar-explore-li').removeClass('active');
