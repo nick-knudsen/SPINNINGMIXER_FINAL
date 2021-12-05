@@ -56,10 +56,4 @@ def load_html_page():
 		print(e)
 	return json.dumps(render_template(file + ".html.j2"))
 
-
-# Endpoint for returning the HTML for another html page in the templates directory
-@webapp.route("/load-html", methods=["GET"])
-def test():
-	return "foo"
-
 # EOF
