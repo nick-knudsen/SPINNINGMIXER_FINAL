@@ -19,7 +19,6 @@ function loadAnalysisPage(result){
 	$("#analysis").html(result);
 	hide_all(); // inside init.js
 	$('#footer-section').fadeIn('slow');
-	$("#analysis-div").fadeIn("Slow");
 	$("#analysis").fadeIn("Slow");
 	$('#footer-section').fadeIn('slow');
 	loadExplorePageListeners();

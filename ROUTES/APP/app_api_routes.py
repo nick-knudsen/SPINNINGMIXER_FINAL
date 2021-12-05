@@ -20,7 +20,7 @@ this_files_dir = os.path.dirname(os.path.abspath(__file__))
 def get_js__and_css_source():
 
 	# Add js files here as you create them
-	js_files = ['init.js', 'explore.js', 'twitter.js', 'mental_health.js', 'analysis.js','magicscroll.js']
+	js_files = ['init.js', 'about.js', 'explore.js', 'twitter.js', 'mental_health.js', 'analysis.js','magicscroll.js']
 	css_files = ['style.css', 'd3LineChart.css','tipsy.css','magicscroll.css']
 
 	js_source = ""

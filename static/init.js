@@ -132,19 +132,20 @@ function show_about() {
 	hide_all();
 	$('#about-section').fadeIn('slow');
 	$('#footer-section').fadeIn('slow');
+	prepareAboutPage(); // in static/about.js
 }
 
 function explore() {
 	hide_all();
 	$('#explore-div').fadeIn('slow');
 	$('#footer-section').fadeIn('slow');
-	prepareExplorePage();
+	prepareExplorePage(); // in static/explore.js
 }
 
 function show_analysis() {
 	hide_all();
 	$('#footer-section').fadeIn('slow');
-	prepareAnalysisPage();
+	prepareAnalysisPage(); // in static/analysis.js
 }
 
 function show_connect() {
@@ -157,10 +158,8 @@ function show_connect() {
 function hide_all() {
 	//window.scrollTo(0, 0); // scroll to top of the page -- xcoordinate,ycoordinate
 	$('#slides').hide();
-	$('#about-section').hide();
-	$('#explore-div').hide();
+	$('#about').hide();
 	$('#explore').hide();
-	$('#analysis-div').hide();
 	$('#analysis').hide();
 	$('#footer-section').hide();
 }
