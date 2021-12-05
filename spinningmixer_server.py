@@ -18,7 +18,7 @@ app.register_blueprint(webapp)
 app.register_blueprint(twitter_api)
 app.register_blueprint(mental_health_api)
 
-# Debug flag
+# Debug flag for terminal chatter
 debug = True
 
 # Main method
