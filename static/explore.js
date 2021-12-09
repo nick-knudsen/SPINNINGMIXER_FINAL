@@ -22,6 +22,66 @@ function loadExplorePage(result){
 	$("#explore").fadeIn("Slow");
 	$('#footer-section').fadeIn('slow');
 	loadExplorePageListeners();
+	var states = ["Alaska",
+                  "Alabama",
+                  "Arkansas",
+                  "American Samoa",
+                  "Arizona",
+                  "California",
+                  "Colorado",
+                  "Connecticut",
+                  "District of Columbia",
+                  "Delaware",
+                  "Florida",
+                  "Georgia",
+                  "Guam",
+                  "Hawaii",
+                  "Iowa",
+                  "Idaho",
+                  "Illinois",
+                  "Indiana",
+                  "Kansas",
+                  "Kentucky",
+                  "Louisiana",
+                  "Massachusetts",
+                  "Maryland",
+                  "Maine",
+                  "Michigan",
+                  "Minnesota",
+                  "Missouri",
+                  "Mississippi",
+                  "Montana",
+                  "North Carolina",
+                  " North Dakota",
+                  "Nebraska",
+                  "New Hampshire",
+                  "New Jersey",
+                  "New Mexico",
+                  "Nevada",
+                  "New York",
+                  "Ohio",
+                  "Oklahoma",
+                  "Oregon",
+                  "Pennsylvania",
+                  "Puerto Rico",
+                  "Rhode Island",
+                  "South Carolina",
+                  "South Dakota",
+                  "Tennessee",
+                  "Texas",
+                  "Utah",
+                  "Virginia",
+                  "Virgin Islands",
+                  "Vermont",
+                  "Washington",
+                  "Wisconsin",
+                  "West Virginia",
+                  "Wyoming"];
+	for (var i=0;i<states.length;i++){
+	   option = '<option value="'+ states[i] + '">' + states[i] + '</option>';
+	   $('#state-selector').append(option);
+	}
+	
 }
 
 function loadExplorePageListeners(){
