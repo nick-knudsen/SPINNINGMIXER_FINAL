@@ -6,6 +6,7 @@ from flask import Flask, redirect, url_for, render_template, Blueprint, session,
 from ROUTES.APP.app_api_routes import webapp
 from ROUTES.TWITTER.twitter_api_routes import twitter_api
 from ROUTES.MENTAL_HEALTH.mental_health_api_routes import mental_health_api
+from ROUTES.FINANCE.finance_api_routes import finance_api
 from ROUTES.API.api import api
 
 # Defining our app's hostname
@@ -18,6 +19,7 @@ app = Flask(__name__)
 app.register_blueprint(webapp)
 app.register_blueprint(twitter_api)
 app.register_blueprint(mental_health_api)
+app.register_blueprint(finance_api)
 app.register_blueprint(api)
 
 # Debug flag for terminal chatter

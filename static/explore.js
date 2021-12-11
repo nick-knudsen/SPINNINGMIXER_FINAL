@@ -18,6 +18,7 @@ function loadExplorePage(result){
     loadExplorePageListeners();
 	$("#explore").html(result);
     $("#spinny-loader").hide();
+    $("#explore-graphs").hide();
 	hide_all(); // inside init.js
 	$('#footer-section').fadeIn('slow');
 	$("#explore").fadeIn("Slow");
@@ -80,6 +81,9 @@ function go() {
 
 function load_charts(state, time_start, time_end) {
     $("#spinny-loader").show();
+    $("#explore-graphs").hide();
+
+    console.log([time_start.substring(0,4), time_end.substring(0,4)])
 
     $.ajax({
         url: "api/return-twitter-data",
@@ -93,6 +97,22 @@ function load_charts(state, time_start, time_end) {
         async: true,
         success: function(result){
             $("#spinny-loader").hide();
+            $("#explore-graphs").show();
+            console.log(result);
+        }
+    });
+
+    $.ajax({
+        url: "api/return-finance-data",
+        dataType: "json",
+        type: "POST",
+        data: {
+            "state" : state,
+            "year_start" : String(time_start.substring(0,4)),
+            "year_end" : String(time_end.substring(0,4)),
+        },
+        async: true,
+        success: function(result){
             console.log(result);
         }
     });

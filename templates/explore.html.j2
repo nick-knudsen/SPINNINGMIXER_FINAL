@@ -5,10 +5,11 @@
 			<center><div id='spinny-loader' class="loadersmall"></div></center>
 	</div>
 	<br>
+	<br>
 </div>
 
 <div>
-	<center> <h5> Select a state and a date range below to explore the data ! </h5></center>
+	<center> <h5> <u> Select a state and a date range below to explore the data ! </u> </h5	></center>
 	<br>
 	<center>
 		<div class="container">
@@ -17,13 +18,31 @@
 					<strong>State: </strong><select id='state-selector' class="selectpicker" data-live-search="true"></select>
 				</div>
 				<div class="col-3" id="time-start-selector-div">
-					<strong>From: </strong><input type="date" id="time-start-selector" name="time-start-selector">
+					<strong>From: </strong><input type="date" min="2020-01-01" max="2020-12-31" id="time-start-selector" name="time-start-selector">
 				</div>
 				<div class="col-3" id="time-end-selector-div">
-					<strong>To: </strong><input type="date" id="time-end-selector" name="time-end-selector">
+					<strong>To: </strong><input type="date" min="2020-01-01" max="2020-12-31" id="time-end-selector" name="time-end-selector">
 				</div>
 				<div class="col-3" id="explore-submit-button-div">
 					<button type="button" class="btn btn-primary hvr-grow" id="explore-submit-button">Go</button>
+				</div>
+			</div>
+		</div>
+	</center>
+	<hr>
+	<br>
+	<!-- The graphs and charts section -->
+	<center>
+		<div class="container" id='explore-graphs'>
+	  		<div class="row">
+				<div class="col-4">
+					<h5> <u> Twitter Senitment Scores </u> </h5>
+				</div>
+				<div class="col-4">
+					<h5> <u> Mental Health K-6 Scores </u> </h5>
+				</div>
+				<div class="col-4">
+					<h5> <u> Purchasing Power </u> </h5>
 				</div>
 			</div>
 		</div>
