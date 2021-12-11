@@ -1,7 +1,32 @@
 <div class="col-12">
-	<h2 class="display text-center" style="color:#6648b1;"> <br> Explore the Data</h2>
+	<br>
+	<h2 class="display text-center" style="color:#6648b1;">Explore the Data</h2>
+	<div id='spinner'>
+			<center><div id='spinny-loader' class="loadersmall"></div></center>
+	</div>
+	<br>
 </div>
 
 <div>
-	<center> Graphs and stuff go here </center>
+	<center> <h5> Select a state and a date range below to explore the data ! </h5></center>
+	<br>
+	<center>
+		<div class="container">
+	  		<div class="row">
+				<div class="col-3">
+					<strong>State: </strong><select id='state-selector' class="selectpicker" data-live-search="true"></select>
+				</div>
+				<div class="col-3" id="time-start-selector-div">
+					<strong>From: </strong><input type="date" id="time-start-selector" name="time-start-selector">
+				</div>
+				<div class="col-3" id="time-end-selector-div">
+					<strong>To: </strong><input type="date" id="time-end-selector" name="time-end-selector">
+				</div>
+				<div class="col-3" id="explore-submit-button-div">
+					<button type="button" class="btn btn-primary hvr-grow" id="explore-submit-button">Go</button>
+				</div>
+			</div>
+		</div>
+	</center>
 </div>
+

@@ -14,13 +14,23 @@ from BLL.TWITTER.twitter_business_logic_layer import Twitter_Business_Logic_Laye
 twitter_api = Blueprint("twitter_data_api", __name__, url_prefix="/api")
 twitter_bll = Twitter_Business_Logic_Layer_Object()
 
-@twitter_api.route("/example-twitter-api-endpoint")
-def example_twitter_api_function():
+@twitter_api.route("/return-twitter-data", methods=["POST"])
+def return_twitter_data():
 	"""
 	Calls out to the Twitter Business Logic Layer
 	"""
-	return_payload = request.form["thing"]
-	return_data = twitter_bll.get_twitter_data_example_function_call(parameter=return_payload)
-	return json.dumps(return_data)
+
+	state = request.form["state"]
+
+	try:
+		time_start = request.form["time_start"]
+		time_end = request.form["time_end"]
+	except:
+		time_start = "false"
+		time_end = "false"
+
+	return_data = twitter_bll.return_twitter_data(state=state, time_start=time_start, time_end=time_end)
+
+	return json.dumps(return_data.to_json())
 
 # EOF
