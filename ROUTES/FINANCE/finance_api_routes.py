@@ -29,8 +29,12 @@ def return_finance_data():
 	year.append(request.form["year_start"])
 	year.append(request.form["year_end"])
 	year = list(set(year))
-	year = [int(i) for i in year]
-	print("\n\nINSIDE ROUTES/FINANCE: ")
+	print("\n\nINSIDE ROUTES/FINANCE 1: ")
+	print("state: {}".format(state))
+	print("year: {}".format(year))
+	if "false" not in year:
+		year = [int(i) for i in year]
+	print("\n\nINSIDE ROUTES/FINANCE 2: ")
 	print("state: {}".format(state))
 	print("year: {}".format(year))
 	

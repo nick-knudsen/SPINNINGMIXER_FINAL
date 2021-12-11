@@ -25,7 +25,7 @@ class Finance_Business_Logic_Layer_Object:
 		if state != "false":
 			# Filter the dataframe to be relevant to the user-selected state
 			return_data = return_data [ (return_data["GeoName"] == state) ]
-		if year != "false":
+		if "false" not in year:
 			# Filter the dataframe to be relevant to the user-selected year
 			for yr in years:
 				print("yr: {}".format(yr))

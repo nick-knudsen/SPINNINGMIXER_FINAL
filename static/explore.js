@@ -69,12 +69,15 @@ function go() {
     }
     var year = date.getUTCFullYear();
     time_end = String([year, month, day].join('-'));
+
     // Make sure the user selected valid start and end dates
-    if (String(time_start) == "NaN-NaN-NaN") {
+    if ( ( (String(time_start).includes("NaN")) ) )  {
         time_start = "false"
-    } else if (String(time_end) == "NaN-NaN-NaN") {
+    } 
+    if ( ( (String(time_end).includes("NaN")) ) )  {
         time_end = "false"
     }
+
     // Load the charts!
     load_charts(state, time_start, time_end);
 }
@@ -83,8 +86,7 @@ function load_charts(state, time_start, time_end) {
     $("#spinny-loader").show();
     $("#explore-graphs").hide();
 
-    console.log([time_start.substring(0,4), time_end.substring(0,4)])
-
+    // Get the twitter data
     $.ajax({
         url: "api/return-twitter-data",
         dataType: "json",
@@ -102,14 +104,22 @@ function load_charts(state, time_start, time_end) {
         }
     });
 
+    // Get the finance data
+    if ( time_start != "false" ) {
+        time_start = String(time_start.substring(0,4))
+    }
+    if ( time_end != "false" ) {
+        time_end = String(time_end.substring(0,4))
+    }
+
     $.ajax({
         url: "api/return-finance-data",
         dataType: "json",
         type: "POST",
         data: {
             "state" : state,
-            "year_start" : String(time_start.substring(0,4)),
-            "year_end" : String(time_end.substring(0,4)),
+            "year_start" : time_start,
+            "year_end" : time_end,
         },
         async: true,
         success: function(result){
