@@ -56,13 +56,22 @@ class Twitter_Business_Logic_Layer_Object:
 		# Clean data and build the sentiment analysis column
 		count = 0
 		vader_compound_scores = []
+		rows_with_retweets = []
 		while count < len(return_data):
+			# Clean the tweet text
 			return_data['pure_text'].iloc[count] = self.clean_tweet(return_data['pure_text'].iloc[count])
+			# Record which rows are retweets
+			if str(return_data['pure_text'].iloc[count]).strip().startswith("RT"):
+				rows_with_retweets.append(count+1)
+			# Record the vader compound score per tweet
 			vader_compound_scores.append(self.return_vader_coumpound_score(return_data['pure_text'].iloc[count]))
 			count += 1
 
 		# Add sentiment analysis column to df 
 		return_data['vader_score'] = vader_compound_scores
+
+		# Remove the retweets from the df
+		return_data.drop(return_data.index[rows_with_retweets], inplace=True)
 
 		print(return_data)
 
