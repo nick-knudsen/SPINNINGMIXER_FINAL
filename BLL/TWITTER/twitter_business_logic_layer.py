@@ -82,8 +82,8 @@ class Twitter_Business_Logic_Layer_Object:
 		return return_data
 
 	def return_available_states(self):
-		
-		available_state_js_files = glob.glob(os.getcwd()+"/DATA/TWITTER/*_tweets.json")
+
+		available_state_js_files = glob.glob(os.getcwd()+"/DATA/TWITTER/2020/*_tweets.json")
 		count = 0
 		while count < len(available_state_js_files):
 			file = str(available_state_js_files[count])

@@ -13,9 +13,9 @@ class Twitter_Data_Access_Object:
 		Return twitter data
 		"""
 		print("\n\nINSIDE TWITTER DAO:")
-		
+
 		# Get the path to the respective state data
-		path_to_data = "{}/DATA/TWITTER/{}_tweets.json".format(str(os.getcwd()),state)
+		path_to_data = "{}/DATA/TWITTER/2020/{}_tweets.json".format(str(os.getcwd()),state)
 		print(path_to_data)
 
 		# Get data
