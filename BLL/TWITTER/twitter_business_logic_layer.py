@@ -1,5 +1,8 @@
 import pandas as pd
 import numpy as np
+import nltk
+nltk.downloader.download('vader_lexicon')
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from DAO.TWITTER.twitter_data_access_object import Twitter_Data_Access_Object
 from datetime import datetime
 
@@ -7,12 +10,32 @@ class Twitter_Business_Logic_Layer_Object:
 
 	def __init__(self):
 		self.twitter_dao = Twitter_Data_Access_Object()
+		self.analyzer = SentimentIntensityAnalyzer()
+
+	def return_vader_coumpound_score(self, tweet):
+		# Get the vader polarity score for a piece of text (tweet)
+		polarity_score = self.analyzer.polarity_scores(tweet)
+		# Return the compound score
+		return polarity_score['compound']
+
+	def clean_tweet(self, tweet):
+
+		# Strip user handles from the tweet
+		tweet = " ".join(filter(lambda x:x[0]!='@', tweet.split()))
+
+		# Strip links
+		tweet = " ".join(filter(lambda x:x[0:4]!='http', tweet.split()))
+		tweet = " ".join(filter(lambda x:x[0:4]!='www.', tweet.split()))
+
+		# Strip hashtags
+		tweet = " ".join(filter(lambda x:x[0]!='#', tweet.split()))
+
+		return tweet
 
 	def return_twitter_data(self, state, time_start, time_end):
 		"""
 		Calls out to the Twitter Data Acess Object
 		"""
-
 		# Properly formatting the time start and end date ranges if they aren't equal to false
 		if time_start != "false":
 			time_start = time_start + ' 00:00:00'
@@ -29,6 +52,17 @@ class Twitter_Business_Logic_Layer_Object:
 			time_end = datetime.strptime(str(time_end), "%Y-%m-%d %H:%M:%S")
 			# Filter the dataframe to be within the user-specified date range
 			return_data = return_data [ (return_data["date"] >= time_start) & (return_data["date"] <= time_end) ]
+
+		# Clean data and build the sentiment analysis column
+		count = 0
+		vader_compound_scores = []
+		while count < len(return_data):
+			return_data['pure_text'].iloc[count] = self.clean_tweet(return_data['pure_text'].iloc[count])
+			vader_compound_scores.append(self.return_vader_coumpound_score(return_data['pure_text'].iloc[count]))
+			count += 1
+
+		# Add sentiment analysis column to df 
+		return_data['vader_score'] = vader_compound_scores
 
 		print(return_data)
 

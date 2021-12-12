@@ -59,7 +59,7 @@ function go() {
     }
     var year = date.getUTCFullYear();
     time_start = String([year, month, day].join('-'));
-    
+
     // Get the end time
     var date = new Date($('#time-end-selector').val());
     var day = String(date.getUTCDate());
@@ -109,7 +109,7 @@ function load_charts(state, time_start, time_end) {
         }
     });
 
-    // Get the finance data
+    // Get the finance data (years only)
     if ( time_start != "false" ) {
         time_start = String(time_start.substring(0,4))
     }
