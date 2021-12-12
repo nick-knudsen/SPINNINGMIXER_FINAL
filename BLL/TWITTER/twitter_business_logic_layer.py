@@ -46,6 +46,8 @@ class Twitter_Business_Logic_Layer_Object:
 		return_data = self.twitter_dao.return_twitter_data(state=state,time_start=time_start,time_end=time_end)
 
 		# Post process data below if needed
+
+		# filter the tweets by time range, if the time ranges are defined
 		if time_start != "false" and time_end != "false":
 			# Convert time start and time end strings to datetime objects
 			time_start = datetime.strptime(str(time_start), "%Y-%m-%d %H:%M:%S")
@@ -53,7 +55,7 @@ class Twitter_Business_Logic_Layer_Object:
 			# Filter the dataframe to be within the user-specified date range
 			return_data = return_data [ (return_data["date"] >= time_start) & (return_data["date"] <= time_end) ]
 
-		# Clean data and build the sentiment analysis column
+		# Clean data, record which rows are retweets, and build the sentiment analysis column
 		count = 0
 		vader_compound_scores = []
 		rows_with_retweets = []
