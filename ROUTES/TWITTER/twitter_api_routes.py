@@ -33,4 +33,14 @@ def return_twitter_data():
 
 	return json.dumps(return_data.to_json())
 
+@twitter_api.route("/return-available-states", methods=["POST"])
+def return_available_states():
+	"""
+	Calls out to the Twitter Business Logic Layer
+	"""
+
+	return_data = sorted(twitter_bll.return_available_states())
+
+	return json.dumps(return_data)
+
 # EOF

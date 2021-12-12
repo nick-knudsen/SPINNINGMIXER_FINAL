@@ -24,12 +24,7 @@ function loadExplorePage(result){
 	$("#explore").fadeIn("Slow");
 	$('#footer-section').fadeIn('slow');
 	loadExplorePageListeners();
-    var states = [ 'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ];
-	for (var i=0;i<states.length;i++){
-	   option = '<option value="'+ states[i] + '">' + states[i] + '</option>';
-	   $('#state-selector').append(option);
-	}
-	
+    loadStates();
 }
 
 // Establishing button listeners
@@ -91,7 +86,7 @@ function load_charts(state, time_start, time_end) {
     $("#spinny-loader").show();
     $("#explore-graphs").hide();
 
-    // Get the twitter data
+    // Plot the twitter data
     $.ajax({
         url: "api/return-twitter-data",
         dataType: "json",
@@ -109,7 +104,10 @@ function load_charts(state, time_start, time_end) {
         }
     });
 
-    // Get the finance data (years only)
+    // Plot the mental health data 
+    // @TODO: <<here>>
+
+    // Plot the finance data (years only)
     if ( time_start != "false" ) {
         time_start = String(time_start.substring(0,4))
     }
@@ -132,3 +130,22 @@ function load_charts(state, time_start, time_end) {
     });
 
 }
+
+// Get the available states with twitter data to populate state dropdown
+function loadStates() {
+    $.ajax({
+        url: "api/return-available-states",
+        dataType: "json",
+        type: "POST",
+        async: true,
+        success: function(result){
+            for (let i=0; i < result.length; i++) {
+                option = '<option value="'+ result[i] + '">' + result[i] + '</option>';
+                $('#state-selector').append(option);
+            }
+        }
+    });
+
+}
+
+// EOF

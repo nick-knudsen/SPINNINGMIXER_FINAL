@@ -5,7 +5,8 @@ nltk.downloader.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from DAO.TWITTER.twitter_data_access_object import Twitter_Data_Access_Object
 from datetime import datetime
-
+import glob
+import os
 class Twitter_Business_Logic_Layer_Object:
 
 	def __init__(self):
@@ -79,5 +80,25 @@ class Twitter_Business_Logic_Layer_Object:
 
 		# Return the post processed data
 		return return_data
+
+	def return_available_states(self):
+		
+		available_state_js_files = glob.glob(os.getcwd()+"/DATA/TWITTER/*_tweets.json")
+		count = 0
+		while count < len(available_state_js_files):
+			file = str(available_state_js_files[count])
+			if "/" in file:
+				file = file.split("/")
+			else:
+				file = file.split("\\")
+			file = file[len(file)-1]
+			available_state_js_files[count] = file[:-12]
+			count += 1
+
+		return available_state_js_files
+
+
+
+
 
 # EOF
