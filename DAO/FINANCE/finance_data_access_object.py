@@ -17,9 +17,9 @@ class Finance_Data_Access_Object:
 		# Get the path to the respective state data
 		path_to_data = "{}/DATA/FINANCIAL/Regional_Price_Parities_by_State.csv".format(str(os.getcwd()),state)
 		print("Path to data: {}".format(path_to_data))
+
 		# Get data
 		df = pd.read_csv(path_to_data)
-		
 
 		return df
 

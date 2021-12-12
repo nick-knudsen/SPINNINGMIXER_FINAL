@@ -23,9 +23,16 @@ class Twitter_Business_Logic_Layer_Object:
 		return_data = self.twitter_dao.return_twitter_data(state=state,time_start=time_start,time_end=time_end)
 
 		# Post process data below if needed
-		post_processed_return_data = return_data # @TODO: fill this in -- post proocess data if needed
+		if time_start != "false" and time_end != "false":
+			# Convert time start and time end strings to datetime objects
+			time_start = datetime.strptime(str(time_start), "%Y-%m-%d %H:%M:%S")
+			time_end = datetime.strptime(str(time_end), "%Y-%m-%d %H:%M:%S")
+			# Filter the dataframe to be within the user-specified date range
+			return_data = return_data [ (return_data["date"] >= time_start) & (return_data["date"] <= time_end) ]
+
+		print(return_data)
 
 		# Return the post processed data
-		return post_processed_return_data
+		return return_data
 
 # EOF

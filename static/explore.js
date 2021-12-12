@@ -43,8 +43,10 @@ function loadExplorePageListeners(){
 
 // Function executed when go button is clicked
 function go() {
+
     // Get the state
     var state = $('#state-selector').val();
+
     // Get the start time
     var date = new Date($('#time-start-selector').val());
     var day = String(date.getUTCDate());
@@ -57,6 +59,7 @@ function go() {
     }
     var year = date.getUTCFullYear();
     time_start = String([year, month, day].join('-'));
+    
     // Get the end time
     var date = new Date($('#time-end-selector').val());
     var day = String(date.getUTCDate());
@@ -83,6 +86,8 @@ function go() {
 }
 
 function load_charts(state, time_start, time_end) {
+
+    // Adjust the front end
     $("#spinny-loader").show();
     $("#explore-graphs").hide();
 
@@ -111,7 +116,6 @@ function load_charts(state, time_start, time_end) {
     if ( time_end != "false" ) {
         time_end = String(time_end.substring(0,4))
     }
-
     $.ajax({
         url: "api/return-finance-data",
         dataType: "json",
