@@ -61,7 +61,7 @@ def main():
 
 			# Overwrite the old json file for some state with the new post-processed data
 			output_dir = os.getcwd()
-			df.to_json(f"{out_dir}/{state}_tweets.json")
+			df.to_json(f"{out_dir}/{state}_tweets_pp.json")
 
 		except Exception as e:
 			print("\nERROR: ")

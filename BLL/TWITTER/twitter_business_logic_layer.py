@@ -7,6 +7,8 @@ from DAO.TWITTER.twitter_data_access_object import Twitter_Data_Access_Object
 from datetime import datetime
 import glob
 import os
+
+
 class Twitter_Business_Logic_Layer_Object:
 
 	def __init__(self):
@@ -41,10 +43,13 @@ class Twitter_Business_Logic_Layer_Object:
 		if time_start != "false":
 			time_start = time_start + ' 00:00:00'
 		if time_end != "false":
-			time_end = time_end + ' 23:59:59'
+			time_end = time_end + ' 23:59:59' 
 
 		# Getting the twitter dataframe from the DAO
 		return_data = self.twitter_dao.return_twitter_data(state=state,time_start=time_start,time_end=time_end)
+
+		print("TWITTER DF BEFORE VADER ANALYSIS: ")
+		print(return_data)
 
 		# Post process data below if needed
 
@@ -67,14 +72,14 @@ class Twitter_Business_Logic_Layer_Object:
 			if str(return_data['pure_text'].iloc[count]).strip().startswith("RT"):
 				rows_with_retweets.append(count+1)
 			# Record the vader compound score per tweet
-			vader_compound_scores.append(self.return_vader_coumpound_score(return_data['pure_text'].iloc[count]))
+			#vader_compound_scores.append(self.return_vader_coumpound_score(return_data['pure_text'].iloc[count]))
 			count += 1
 
 		# Add sentiment analysis column to df 
 		return_data['vader_score'] = vader_compound_scores
 
 		# Remove the retweets from the df
-		return_data.drop(return_data.index[rows_with_retweets], inplace=True)
+		#return_data.drop(return_data.index[rows_with_retweets], inplace=True)
 
 		print(return_data)
 

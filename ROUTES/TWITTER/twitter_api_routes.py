@@ -31,6 +31,9 @@ def return_twitter_data():
 
 	return_data = twitter_bll.return_twitter_data(state=state, time_start=time_start, time_end=time_end)
 
+	print("\n\nINSIDE ROUTES/TWITTER -- DF: ")
+	print(df)
+
 	return json.dumps(return_data.to_json())
 
 @twitter_api.route("/return-available-states", methods=["POST"])
