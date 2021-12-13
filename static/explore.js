@@ -11,7 +11,6 @@ function prepareExplorePage() {
 			loadExplorePage(result);
 		}
 	});
-
 }
 
 function loadExplorePage(result){
@@ -33,6 +32,10 @@ function loadExplorePageListeners(){
 	$('#explore-submit-button').click(function() {
         go();
 	});
+
+/*    $('#explore-submit-button').on("click", function () {
+        go();
+    });*/
 
 }
 
@@ -101,6 +104,7 @@ function load_charts(state, time_start, time_end) {
             $("#spinny-loader").hide();
             $("#explore-graphs").show();
             console.log(result);
+            var chart_div = "twitter-sentiment-chart"
         }
     });
 
@@ -126,9 +130,9 @@ function load_charts(state, time_start, time_end) {
         async: true,
         success: function(result){
             console.log(result);
+            var chart_div = "mental-health-chart"
         }
     });
-
 }
 
 // Get the available states with twitter data to populate state dropdown
@@ -145,7 +149,71 @@ function loadStates() {
             }
         }
     });
-
 }
+
+// Using HigherChart JS library
+function drawLineChart(xData, yData, divID, title, subtitle, yAxis_Label, xAxis_Label, dataLabel) {
+
+    // Draw the chart
+    Highcharts.chart(divID, {
+        // Set the title
+        title: {
+          text: title
+        },
+        // Set the subtitle
+        subtitle: {
+          text: subtitle
+        },
+        // Set up the y axis
+        yAxis: {
+          title: {
+            text: yAxis_Label
+          }
+        },
+        // Set up the x axis
+        xAxis: {
+            title: {
+                text: xAxis_Label
+            },
+            type: 'datetime',
+            labels: {
+                formatter: function() {
+                return Highcharts.dateFormat('%b/%e/%Y', this.value);
+            }
+            },
+            format: '{value:%d.%m.%Y %A} 00:00',
+            tickInterval: 24 * 3600 * 1000,
+            startOnTick: true,
+            endOnTick: true
+        },
+        // Set up the legend
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle'
+        },
+        // Define plot options
+        plotOptions: {
+          series: {
+            label: {
+              connectorAllowed: false
+            },
+            pointStart: timestampNow
+          }
+        },
+        // Load the data
+        series: 
+        [
+          {
+            name: dataLabel,
+            data: 
+              [
+                [timestampNow, 1],
+                [timestampOneDayLater, 2]
+              ]
+          }
+        ]
+    });
+} // end drawLineChart
 
 // EOF
