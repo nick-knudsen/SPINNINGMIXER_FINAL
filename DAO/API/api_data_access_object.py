@@ -4,7 +4,7 @@ import os
 
 class API_Data_Access_Object:
 
-	def retuen_api_df(self):
+	def return_api_df(self):
 		"""
 		Return api csv data as pandas df
 		"""

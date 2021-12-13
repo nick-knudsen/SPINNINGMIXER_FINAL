@@ -11,12 +11,12 @@ class API_Business_Logic_Layer_Object:
 		"""
 		Calls out to the API Data Acess Object to construct API documentation df
 		"""
-		return self.api_dao.retuen_api_df().to_json()
+		return self.api_dao.return_api_df().to_json()
 
 	def return_api_df_html(self):
 		"""
 		Calls out to the API Data Acess Object to construct API documentation df html table
 		"""
-		return self.api_dao.retuen_api_df().to_html(index=False, escape=False, classes=["api-table"])
+		return self.api_dao.return_api_df().to_html(index=False, escape=False, classes=["api-table"])
 
 # EOF

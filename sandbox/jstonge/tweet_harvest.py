@@ -49,7 +49,7 @@ def main():
 
     segm_tweets = tweet_connect('guest', 'roboctopus', 
                                 database='tweet_segmented_location', 
-                                collection='2020')
+                                collection='2021')
 
     run_query(state, DB=segm_tweets, out_dir=output_dir)
 

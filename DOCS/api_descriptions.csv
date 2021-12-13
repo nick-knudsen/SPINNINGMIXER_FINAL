@@ -5,5 +5,5 @@ api/download-preliminary-proposal,GET,Allows client to download preliminary prop
 api/download-abstact,GET,Allows client to download abstract (.docx)
 api/download-analysis,GET,Allows client to download full analysis (.docx)
 api/download-api-csv,GET,Allows client to download CSV of api descriptions (.csv)
-api/return-twitter-data,POST,"Allows client to retreive JSON twitter data<br>Parameters:<br>&nbsp;state: String (Note: Use state acronym)<br>&nbsp;time_start: String (use ""false"" for all tweet data, YYYY-MM_DD otherwise)<br>&nbsp;time_end: String (use ""false"" for all tweet data, YYYY-MM_DD otherwise)"
-api/return-finance-data,POST,"Allows client to retreive JSON finance data<br>Parameters:<br>&nbsp;state: String (Note: Use state acronym)<br>&nbsp;time_start: String (use ""false"" for all finance data, YYYY-MM_DD otherwise)<br>&nbsp;time_end: String (use ""false"" for all finance data, YYYY-MM_DD otherwise)"
+api/return-twitter-data,POST,"Allows client to retreive JSON twitter data<br>Parameters:<br>&nbsp;state: String (Note: Use state acronym)<br>&nbsp;time_start: String (use ""false"" for all tweet data, YYYY-MM_DD otherwise)<br>&nbsp;time_end: String (use ""false"" for all tweet data, YYYY-MM-DD otherwise)"
+api/return-finance-data,POST,"Allows client to retreive JSON finance data<br>Parameters:<br>&nbsp;state: String (Note: Use state acronym)<br>&nbsp;time_start: String (use ""false"" for all finance data, YYYY-MM_DD otherwise)<br>&nbsp;time_end: String (use ""false"" for all finance data, YYYY-MM-DD otherwise)"

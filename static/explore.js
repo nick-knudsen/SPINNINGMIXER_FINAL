@@ -1,46 +1,46 @@
 function prepareExplorePage() {
 
 	var file = "explore";
-	// Ping the load-html app endpoint to load the explor.html.j2 page from the templates directory
+	// Ping the load-html app endpoint to load the explore.html.j2 page content from the templates directory
 	$.ajax({
 		url: "/load-html",
 		dataType: "json",
 		type: "POST",
 		data: {"file": file},
+        async: false,
 		success: function(result){
+            // Store HTML content (string) in variable "result"
 			loadExplorePage(result);
 		}
 	});
 }
 
 function loadExplorePage(result){
-    loadExplorePageListeners();
-	$("#explore").html(result);
-    $("#spinny-loader").hide();
-    $("#explore-graphs").hide();
+	$("#explore").html(result); // populate explore div with content from explore.html.j2 template
+    loadExplorePageListeners(); // establishes the behavior of the listeners for buttons/drop-downs
+    show_spinny_loader(); // showing loading icon
+    loadViews(); // populates Select Dashboard drop-down menu
+    hide_spinny_loader(); // hiding loading icon
 	hide_all(); // inside init.js
-	$('#footer-section').fadeIn('slow');
-	$("#explore").fadeIn("Slow");
-	$('#footer-section').fadeIn('slow');
-	loadExplorePageListeners();
-    loadStates();
+    show_national_dashboard(); // show national dashboard by default
+    show_page_footer(); // showing the page footer
 }
 
-// Establishing button listeners
-function loadExplorePageListeners(){
+// Establishing button/dropdown listeners
+function loadExplorePageListeners() {
 	// Do something when go button is clicked
-	$('#explore-submit-button').click(function() {
-        go();
+	$('#explore-state-submit-button').click(function() {
+        load_state_dashboard();
 	});
 
-/*    $('#explore-submit-button').on("click", function () {
-        go();
-    });*/
-
+    $('#explore-view-selector').on('change', function() {
+        console.log("Dashboard change detected!");
+        change_dashboard();
+    });
 }
 
 // Function executed when go button is clicked
-function go() {
+function load_state_dashboard() {
 
     // Get the state
     var state = $('#state-selector').val();
@@ -80,16 +80,16 @@ function go() {
     }
 
     // Load the charts!
-    load_charts(state, time_start, time_end);
+    load_state_view_charts(state, time_start, time_end);
 }
 
-function load_charts(state, time_start, time_end) {
+function load_state_view_charts(state, time_start, time_end) {
 
     // Adjust the front end
     $("#spinny-loader").show();
-    $("#explore-graphs").hide();
+    $("#explore-state-graph-headers").hide();
 
-    // Plot the twitter data
+    // Retrieve the twitter data
     $.ajax({
         url: "api/return-twitter-data",
         dataType: "json",
@@ -108,10 +108,10 @@ function load_charts(state, time_start, time_end) {
         }
     });
 
-    // Plot the mental health data 
+    // Retrieve the mental health data 
     // @TODO: <<here>>
 
-    // Plot the finance data (years only)
+    // Retrieve the finance data (years only)
     if ( time_start != "false" ) {
         time_start = String(time_start.substring(0,4))
     }
@@ -151,6 +151,15 @@ function loadStates() {
     });
 }
 
+// Populates the Select Dashboard drop-down menu
+function loadViews() {
+    views = ["National", "State"];
+    for (let i=0; i < views.length; i++) {
+        option = '<option value="'+ views[i] + '">' + views[i] + '</option>';
+        console.log(option)
+        $('#explore-view-selector').append(option);
+    }
+}
 // Using HigherChart JS library
 function drawLineChart(xData, yData, divID, title, subtitle, yAxis_Label, xAxis_Label, dataLabel) {
 
@@ -216,4 +225,49 @@ function drawLineChart(xData, yData, divID, title, subtitle, yAxis_Label, xAxis_
     });
 } // end drawLineChart
 
+// Changes the dashboard accordingly
+function change_dashboard(){
+
+    var selected_dashboard = $('#explore-view-selector').val();
+
+    console.log("Selected dashboard is: " + selected_dashboard);
+
+    // Show the state dashboard if state is selected
+    if (selected_dashboard == "State" ) {
+        show_state_dashboard();
+    }
+
+    // Show the national dashboard if national is selected
+    if (selected_dashboard == "National" ) {
+        show_national_dashboard();
+    }
+}
+
+// Shows the state level dashboard
+function show_state_dashboard() {
+    loadStates();
+    $("#explore-national-view").hide();
+    $("#explore-state-view").fadeIn();
+}
+
+// Shows the national level dashboard
+function show_national_dashboard() {
+    $("#explore-state-view").hide();
+    $("#explore-national-view").fadeIn();
+}
+
+// Shows the footer for the page
+function show_page_footer() {
+    $('#footer-section').fadeIn('slow');
+    $("#explore").fadeIn("Slow");
+    $('#footer-section').fadeIn('slow');
+}
+
+function show_spinny_loader() {
+    $("#spinny-loader").show();
+}
+
+function hide_spinny_loader() {
+    $("#spinny-loader").hide();
+}
 // EOF
