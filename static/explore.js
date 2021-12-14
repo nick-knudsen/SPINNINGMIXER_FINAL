@@ -306,14 +306,13 @@ function plot_twitter_sentiment_500k_plot(result, state, div_ID) {
     var result = JSON.parse(result);
     var dates = Object.values(result['date']);
     var vader_scores = Object.values(result['vader_scores']);
+    delete result; // memory management
 
     // Making sure the dates are sorted for HigherChart (seems to be a bug)
     var date2vader_score = {}
-    delete result; // memory management
     for (var i = 0; i < dates.length; i++) {
         date2vader_score[dates[i]] = vader_scores[i];
     }
-
     sortedDates = dates.sort()
     var arr = []
     for (var i = 0; i < sortedDates.length; i++) {
@@ -322,20 +321,14 @@ function plot_twitter_sentiment_500k_plot(result, state, div_ID) {
     }
     delete date2vader_score // memory management
 
-
-    var testDates = []
-    for (var i = 0; i < sortedDates.length; i++) {
-        testDates.push( arr[i][0] )
-    }
-
-
     Highcharts.chart(div_ID, {
+
         chart: {
             zoomType: 'x'
         },
 
         title: {
-            text: 'Tweet Sentiment Values For ' + state
+            text: state + ' Tweet Sentiment Values Over Time ' 
         },
 
         subtitle: {
@@ -347,20 +340,27 @@ function plot_twitter_sentiment_500k_plot(result, state, div_ID) {
         },
 
         xAxis: {
-            type: 'datetime'
+            type: 'datetime',
+            label: "Time"
         },
 
-        series: [{
-            data: arr,
-            lineWidth: 0.5,
-            color: '#0066FF',
-            legendColor: '#0066FF',
-            name: 'Tweet Sentiment '
-        }],
+        yAxis: {
+            title: "Tweet Sentiment"
+        },
+
+        series: [
+            {
+                data: arr,
+                lineWidth: 0.5,
+                color: '#0066FF',
+                legendColor: '#0066FF',
+                name: 'Tweet Sentiment '
+            }
+        ],
 
         legend: {
             layout: 'vertical',
-            align: 'right',
+            align: 'left',
             verticalAlign: 'middle'
         },
 
