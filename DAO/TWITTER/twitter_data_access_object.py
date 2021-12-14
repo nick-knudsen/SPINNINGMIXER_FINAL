@@ -41,6 +41,11 @@ class Twitter_Data_Access_Object:
 			if col not in columns_to_keep:
 				df.drop([col], axis=1, inplace=True)
 
+		df["date"] = pd.to_datetime(df["date"])
+		df = df.sort_values(by=['date'], ascending=True)
+
+		print(df)
+
 		return df
 
 # EOF

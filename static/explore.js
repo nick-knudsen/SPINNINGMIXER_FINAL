@@ -55,6 +55,8 @@ function load_state_dashboard() {
     // Get the state
     var state = $('#state-selector').val();
 
+    var bin_count = $('#state-explore-bin-selector').val(); 
+
     // Get the start time
     var date = new Date($('#state-time-start-selector').val());
     var day = String(date.getUTCDate());
@@ -90,11 +92,11 @@ function load_state_dashboard() {
     }
 
     // Load the charts!
-    return_state_data(state, time_start, time_end);
+    return_state_data(state, time_start, time_end, bin_count);
 }
 
 // Returns the states' twitter, mental_health, and finance data
-function return_state_data(state, time_start, time_end) {
+function return_state_data(state, time_start, time_end, bin_count) {
 
     // Adjust the front end
     $("#spinny-loader").show();
@@ -112,6 +114,7 @@ function return_state_data(state, time_start, time_end) {
             "state" : state,
             "time_start" : time_start,
             "time_end" : time_end,
+            "bin_count" : bin_count
         },
         async: true,
         success: function(result){
@@ -168,6 +171,13 @@ function loadStates() {
             }
         }
     });
+}
+
+function loadStateViewBinDropDown() {
+    for (let i=0; i <= 28; i++) {
+        option = '<option value="'+ i + '">' + i + '</option>';
+        $('#state-explore-bin-selector').append(option);
+    }
 }
 
 // Populates the "Select Dashboard" drop-down menu
@@ -265,6 +275,7 @@ function change_dashboard(){
 // Shows the state level dashboard
 function show_state_dashboard() {
     loadStates();
+    loadStateViewBinDropDown();
     $("#explore-national-view").hide();
     $("#state-explore-view").fadeIn();
 }
@@ -372,7 +383,29 @@ function plot_twitter_sentiment_500k_plot(result, state, div_ID) {
             line: {
                 // shared options for all line series
             }
+        },
+
+        // Outline the export button
+        navigation: {
+          buttonOptions: {
+            theme: {
+              'stroke-width': 1,
+              stroke: 'silver',
+              r: 0,
+              states: {
+                hover: {
+                  fill: '#f3f3f3'
+                },
+                select: {
+                  stroke: '#039',
+                  fill: '#bbadab'
+                }
+              }
+            }
+          }
         }
     });
 }
+
+
 // EOF

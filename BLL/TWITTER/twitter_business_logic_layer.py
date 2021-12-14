@@ -23,7 +23,7 @@ class Twitter_Business_Logic_Layer_Object:
 
 		return df
 
-	def return_twitter_data(self, state, time_start, time_end):
+	def return_twitter_data(self, state, time_start, time_end, bin_count):
 		"""
 		Calls out to the Twitter Data Acess Object
 		"""
@@ -35,8 +35,9 @@ class Twitter_Business_Logic_Layer_Object:
 
 		# Getting the twitter dataframe from the DAO
 		return_data = self.twitter_dao.return_twitter_data(state=state,time_start=time_start,time_end=time_end)
+		
 
-		print("TWITTER DF BEFORE VADER ANALYSIS: ")
+		print("INSIDE TWITTER BLL -- DF BEFORE POST-PROCESSING: ")
 		print(return_data)
 
 		# Post process data below if needed
@@ -50,19 +51,44 @@ class Twitter_Business_Logic_Layer_Object:
 			return_data = return_data [ (return_data["date"] >= time_start) & (return_data["date"] <= time_end) ]
 
 
+		print("INSIDE TWITTER BLL -- DF AFTER POST-PROCESSING DATES: ")
+		print(return_data)
+		print(return_data.columns)
+		print("\n\n")
+
 
 		## DEBUG -- REMOVE -- ADDING FAKE SENTIMENT DATA WHILE JSON FILES ARE CLEANED
 		return_data = self.add_fake_sentiment_data(return_data)
 		#############################################################################
 
+		# Drop the 'pure_text' column
+		try:
+			return_data = return_data.drop(['pure_text'], axis=1)
+		except:
+			pass
 
-
-		print("\n\nRETURNINGOUT OF TWITTER BLL! DF: ")
+		print("INSIDE TWITTER BLL -- DF AFTER DROPPING 'pure_text' COLUMN: ")
 		print(return_data)
+		print(return_data.columns)
+
+		# Group by variable number of days if bin_count > 0
+		if bin_count > 0:
+			print("Grouping {} DF by {} day(s)".format(state, bin_count))
+			return_data = self.group_df_by_day(return_data, bin_count)
+
+		print("\n\nRETURNING OUT OF TWITTER BLL! DF: ")
+		print(return_data)
+		print(return_data.columns)
+		print(return_data[return_data.columns.tolist()[0]].iloc[0])
+
 
 		# Return the post processed data
 		return return_data
 
+	def group_df_by_day(self, df, bin_count):
+		
+		return df.groupby(by=[pd.Grouper(key='date', freq='{}D'.format(bin_count))], as_index=True).mean().reset_index()
+		
 	def return_available_states(self):
 
 		available_state_js_files = glob.glob(os.getcwd()+"/DATA/TWITTER/2020/*_tweets.json")

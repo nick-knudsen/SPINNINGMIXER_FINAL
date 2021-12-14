@@ -29,7 +29,12 @@ def return_twitter_data():
 		time_start = "false"
 		time_end = "false"
 
-	return_data = twitter_bll.return_twitter_data(state=state, time_start=time_start, time_end=time_end)
+	try:
+		bin_count = int(request.form["bin_count"])
+	except:
+		bin_count = 0
+
+	return_data = twitter_bll.return_twitter_data(state=state, time_start=time_start, time_end=time_end, bin_count=bin_count)
 	return_data = return_data.sort_values(by=['date'], ascending=True)
 
 	print("\n\nINSIDE ROUTES/TWITTER -- DF: ")
