@@ -326,8 +326,8 @@ Extra (xl) large devices (large desktops, 1200px and up)
 
 .highcharts-figure,
 .highcharts-data-table table {
-  min-width: 360px;
-  max-width: 800px;
+  /*min-width: 360px;
+  max-width: 800px;*/
   margin: 1em auto;
 }
 
@@ -338,8 +338,8 @@ Extra (xl) large devices (large desktops, 1200px and up)
   margin: 10px auto;
   text-align: center;
   width: 100%;
-  max-width: 500px;
-}
+/*  max-width: 500px;
+*/}
 
 .highcharts-data-table caption {
   padding: 1em 0;

@@ -22,7 +22,7 @@
 <hr>
 
 <!-- Setting up the State View dashboard -->
-<div id='explore-state-view'>
+<div id='state-explore-view'>
 	<center> <h5> <u> Select a state and a date range below to explore the data ! </u> </h5	></center>
 	<br>
 	<center>
@@ -32,21 +32,21 @@
 					<strong>State: </strong><select id='state-selector' class="selectpicker" data-live-search="true"></select>
 				</div>
 				<div class="col-3" id="time-start-selector-div">
-					<strong>From: </strong><input type="date" min="2020-01-01" max="2020-12-31" id="time-start-selector" name="time-start-selector">
+					<strong>From: </strong><input type="date" min="2020-01-01" max="2021-12-31" id="state-time-start-selector" name="time-start-selector">
 				</div>
 				<div class="col-3" id="time-end-selector-div">
-					<strong>To: </strong><input type="date" min="2020-01-01" max="2020-12-31" id="time-end-selector" name="time-end-selector">
+					<strong>To: </strong><input type="date" min="2020-01-01" max="2021-12-31" id="state-time-end-selector" name="time-end-selector">
 				</div>
 				<div class="col-3" id="explore-submit-button-div">
-					<button type="button" class="btn btn-primary hvr-grow" id="explore-state-submit-button">Go</button>
+					<button type="button" class="btn btn-primary hvr-grow" id="state-explore-submit-button">Go</button>
 				</div>
 			</div>
 		</div>
 	</center>
 	<br>
 	<!-- The graphs and charts section -->
-	<center>
-		<div class="container" id='explore-state-graph-headers'>
+<!-- 	<center>
+		<div class="container" id='state-explore-graph-headers'>
 	  		<div class="row">
 				<div class="col-4">
 					<h5> <u> Twitter Senitment Scores </u> </h5>
@@ -59,22 +59,29 @@
 				</div>
 			</div>
 		</div>
-	</center>
+	</center> -->
 
-	<!-- The graphs and charts section -->
+	<!-- The State View graphs and charts section -->
 	<center>
-		<div class="container" id='explore-graphs-charts'>
+		<div class="container" id='state-explore-graph-charts'>
 	  		<div class="row">
-				<div class="col-4" id='twitter-sentiment-chart'></div>
-				<div class="col-4" id='mental-health-chart'></div>
-				<div class="col-4" id='finance-chart'></div>
+	  			<div class="col-4" id='state-explore-graph-headers'>
+					<h5> <u> Twitter Senitment Scores </u> </h5>
+				</div>
+				<div class="col-12" id='state-explore-graph'>
+					<figure class="highcharts-figure">
+						<div id="tweet-sentiment-boost-chart"></div>
+					</figure>
+				</div>
+				<!-- <div class="col-4" id='mental-health-chart'></div>
+				<div class="col-4" id='finance-chart'></div> -->
 			</div>
 		</div>
 	</center>
 </div>
 
 
-<!-- Setting up the State View dashboard -->
+<!-- Setting up the National View dashboard -->
 <div id='explore-national-view'>
 	<center> <h5> <u> Select a date range below to explore the data ! </u> </h5	></center>
 	<br>
@@ -83,10 +90,10 @@
 			<center>
 		  		<div class="row">
 					<div class="col-4" id="time-start-selector-div">
-						<strong>From: </strong><input type="date" min="2020-01-01" max="2020-12-31" id="national-time-start-selector" name="time-start-selector">
+						<strong>From: </strong><input type="date" min="2020-01-01" max="2021-12-31" id="national-time-start-selector" name="national-time-start-selector">
 					</div>
 					<div class="col-4" id="time-end-selector-div">
-						<strong>To: </strong><input type="date" min="2020-01-01" max="2020-12-31" id="national-time-end-selector" name="time-end-selector">
+						<strong>To: </strong><input type="date" min="2020-01-01" max="2021-12-31" id="national-time-end-selector" name="national-time-end-selector">
 					</div>
 					<div class="col-4" id="explore-submit-button-div">
 						<button type="button" class="btn btn-primary hvr-grow" id="national-explore-submit-button">Go</button>
@@ -98,7 +105,7 @@
 	<br>
 	<!-- The graphs and charts section -->
 	<center>
-		<div class="container" id='national-explore-graphs'>
+		<div class="container" id='national-explore-graph-headers'>
 	  		<div class="row">
 				<div class="col-12">
 					<h5> <u> National Sparkline Chart </u> </h5>

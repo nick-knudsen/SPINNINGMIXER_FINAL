@@ -30,9 +30,10 @@ def return_twitter_data():
 		time_end = "false"
 
 	return_data = twitter_bll.return_twitter_data(state=state, time_start=time_start, time_end=time_end)
+	return_data = return_data.sort_values(by=['date'], ascending=True)
 
 	print("\n\nINSIDE ROUTES/TWITTER -- DF: ")
-	print(df)
+	print(return_data)
 
 	return json.dumps(return_data.to_json())
 

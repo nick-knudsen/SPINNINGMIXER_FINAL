@@ -1,39 +1,27 @@
 import pandas as pd
 import numpy as np
-import nltk
-nltk.downloader.download('vader_lexicon')
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from DAO.TWITTER.twitter_data_access_object import Twitter_Data_Access_Object
 from datetime import datetime
 import glob
 import os
+import random
 
 
 class Twitter_Business_Logic_Layer_Object:
 
 	def __init__(self):
 		self.twitter_dao = Twitter_Data_Access_Object()
-		self.analyzer = SentimentIntensityAnalyzer()
 
-	def return_vader_coumpound_score(self, tweet):
-		# Get the vader polarity score for a piece of text (tweet)
-		polarity_score = self.analyzer.polarity_scores(tweet)
-		# Return the compound score
-		return polarity_score['compound']
+	### REMOVE THIS ###
+	def add_fake_sentiment_data(self, df):
+	
+		fake_sentiment_data = []
+		for i in range(0, len(df)):
+			fake_sentiment_data.append(random.randint(-5, 5))
 
-	def clean_tweet(self, tweet):
+		df['vader_scores'] = fake_sentiment_data 
 
-		# Strip user handles from the tweet
-		tweet = " ".join(filter(lambda x:x[0]!='@', tweet.split()))
-
-		# Strip links
-		tweet = " ".join(filter(lambda x:x[0:4]!='http', tweet.split()))
-		tweet = " ".join(filter(lambda x:x[0:4]!='www.', tweet.split()))
-
-		# Strip hashtags
-		tweet = " ".join(filter(lambda x:x[0]!='#', tweet.split()))
-
-		return tweet
+		return df
 
 	def return_twitter_data(self, state, time_start, time_end):
 		"""
@@ -61,26 +49,15 @@ class Twitter_Business_Logic_Layer_Object:
 			# Filter the dataframe to be within the user-specified date range
 			return_data = return_data [ (return_data["date"] >= time_start) & (return_data["date"] <= time_end) ]
 
-		# Clean data, record which rows are retweets, and build the sentiment analysis column
-		count = 0
-		vader_compound_scores = []
-		rows_with_retweets = []
-		while count < len(return_data):
-			# Clean the tweet text
-			return_data['pure_text'].iloc[count] = self.clean_tweet(return_data['pure_text'].iloc[count])
-			# Record which rows are retweets
-			if str(return_data['pure_text'].iloc[count]).strip().startswith("RT"):
-				rows_with_retweets.append(count+1)
-			# Record the vader compound score per tweet
-			#vader_compound_scores.append(self.return_vader_coumpound_score(return_data['pure_text'].iloc[count]))
-			count += 1
 
-		# Add sentiment analysis column to df 
-		return_data['vader_score'] = vader_compound_scores
 
-		# Remove the retweets from the df
-		#return_data.drop(return_data.index[rows_with_retweets], inplace=True)
+		## DEBUG -- REMOVE -- ADDING FAKE SENTIMENT DATA WHILE JSON FILES ARE CLEANED
+		return_data = self.add_fake_sentiment_data(return_data)
+		#############################################################################
 
+
+
+		print("\n\nRETURNINGOUT OF TWITTER BLL! DF: ")
 		print(return_data)
 
 		# Return the post processed data
@@ -101,9 +78,6 @@ class Twitter_Business_Logic_Layer_Object:
 			count += 1
 
 		return available_state_js_files
-
-
-
 
 
 # EOF

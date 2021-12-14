@@ -1,5 +1,5 @@
+// Renders templates/explore.html.j2 template
 function prepareExplorePage() {
-
 	var file = "explore";
 	// Ping the load-html app endpoint to load the explore.html.j2 page content from the templates directory
 	$.ajax({
@@ -15,8 +15,10 @@ function prepareExplorePage() {
 	});
 }
 
+// Loads explore page with templates/explore.html.j2 template and calls init functions
 function loadExplorePage(result){
 	$("#explore").html(result); // populate explore div with content from explore.html.j2 template
+    $('#state-explore-graph-charts').hide(); 
     loadExplorePageListeners(); // establishes the behavior of the listeners for buttons/drop-downs
     show_spinny_loader(); // showing loading icon
     loadViews(); // populates Select Dashboard drop-down menu
@@ -28,25 +30,33 @@ function loadExplorePage(result){
 
 // Establishing button/dropdown listeners
 function loadExplorePageListeners() {
-	// Do something when go button is clicked
-	$('#explore-state-submit-button').click(function() {
-        load_state_dashboard();
-	});
 
     $('#explore-view-selector').on('change', function() {
         console.log("Dashboard change detected!");
         change_dashboard();
     });
+
+	$('#state-explore-submit-button').click(function() {
+        load_state_dashboard();
+	});
+
+    $('#national-explore-submit-button').click(function() {
+        load_national_dashboard();
+    });
 }
 
-// Function executed when go button is clicked
+function load_national_dashboard() {
+
+}
+
+// Function executed when go button is clicked in state dashboard
 function load_state_dashboard() {
 
     // Get the state
     var state = $('#state-selector').val();
 
     // Get the start time
-    var date = new Date($('#time-start-selector').val());
+    var date = new Date($('#state-time-start-selector').val());
     var day = String(date.getUTCDate());
     var month = String(date.getUTCMonth() + 1);
     if ( day.length == 1 ) {
@@ -59,7 +69,7 @@ function load_state_dashboard() {
     time_start = String([year, month, day].join('-'));
 
     // Get the end time
-    var date = new Date($('#time-end-selector').val());
+    var date = new Date($('#state-time-end-selector').val());
     var day = String(date.getUTCDate());
     var month = String(date.getUTCMonth() + 1);
     if ( day.length == 1 ) {
@@ -80,14 +90,18 @@ function load_state_dashboard() {
     }
 
     // Load the charts!
-    load_state_view_charts(state, time_start, time_end);
+    return_state_data(state, time_start, time_end);
 }
 
-function load_state_view_charts(state, time_start, time_end) {
+// Returns the states' twitter, mental_health, and finance data
+function return_state_data(state, time_start, time_end) {
 
     // Adjust the front end
     $("#spinny-loader").show();
-    $("#explore-state-graph-headers").hide();
+    $("#state-explore-graph-headers").hide();
+    $("#state-explore-graphs-charts").hide();
+    $("#state-explore-graph").hide();
+    
 
     // Retrieve the twitter data
     $.ajax({
@@ -102,9 +116,13 @@ function load_state_view_charts(state, time_start, time_end) {
         async: true,
         success: function(result){
             $("#spinny-loader").hide();
-            $("#explore-graphs").show();
-            console.log(result);
-            var chart_div = "twitter-sentiment-chart"
+            $("#state-explore-graphs").fadeIn();
+            $('#state-explore-graph-headers').fadeIn();
+            var chart_div = 'tweet-sentiment-boost-chart'
+            $('#'+chart_div).fadeIn();
+            plot_twitter_sentiment_500k_plot(result, state, chart_div);
+            $('#state-explore-graph-charts').fadeIn(); 
+            $('#state-explore-graph').fadeIn(); 
         }
     });
 
@@ -112,7 +130,7 @@ function load_state_view_charts(state, time_start, time_end) {
     // @TODO: <<here>>
 
     // Retrieve the finance data (years only)
-    if ( time_start != "false" ) {
+   /* if ( time_start != "false" ) {
         time_start = String(time_start.substring(0,4))
     }
     if ( time_end != "false" ) {
@@ -129,10 +147,11 @@ function load_state_view_charts(state, time_start, time_end) {
         },
         async: true,
         success: function(result){
-            console.log(result);
-            var chart_div = "mental-health-chart"
+            result = JSON.parse(result);
+            //console.log(result);
+            var chart_div = "finance-chart"
         }
-    });
+    });*/
 }
 
 // Get the available states with twitter data to populate state dropdown
@@ -151,7 +170,7 @@ function loadStates() {
     });
 }
 
-// Populates the Select Dashboard drop-down menu
+// Populates the "Select Dashboard" drop-down menu
 function loadViews() {
     views = ["National", "State"];
     for (let i=0; i < views.length; i++) {
@@ -247,12 +266,12 @@ function change_dashboard(){
 function show_state_dashboard() {
     loadStates();
     $("#explore-national-view").hide();
-    $("#explore-state-view").fadeIn();
+    $("#state-explore-view").fadeIn();
 }
 
 // Shows the national level dashboard
 function show_national_dashboard() {
-    $("#explore-state-view").hide();
+    $("#state-explore-view").hide();
     $("#explore-national-view").fadeIn();
 }
 
@@ -269,5 +288,91 @@ function show_spinny_loader() {
 
 function hide_spinny_loader() {
     $("#spinny-loader").hide();
+}
+
+
+// Function to check if an array is sorted
+const isSorted = arr => {
+    if (arr.length <= 1) return 0;
+    const direction = arr[1] - arr[0];
+    for (let i = 2; i < arr.length; i++) {
+        if ((arr[i] - arr[i - 1]) * direction < 0) return 0;
+    }
+    return Math.sign(direction);
+};
+
+function plot_twitter_sentiment_500k_plot(result, state, div_ID) {
+    
+    var result = JSON.parse(result);
+    var dates = Object.values(result['date']);
+    var vader_scores = Object.values(result['vader_scores']);
+
+    // Making sure the dates are sorted for HigherChart (seems to be a bug)
+    var date2vader_score = {}
+    delete result; // memory management
+    for (var i = 0; i < dates.length; i++) {
+        date2vader_score[dates[i]] = vader_scores[i];
+    }
+
+    sortedDates = dates.sort()
+    var arr = []
+    for (var i = 0; i < sortedDates.length; i++) {
+        // arr = [ [<date>, <vader_score>], [<date>, <vader_score>], ... ,[<date>, <vader_score>] ]
+        arr.push( [ sortedDates[i], date2vader_score[sortedDates[i]] ] )
+    }
+    delete date2vader_score // memory management
+
+
+    var testDates = []
+    for (var i = 0; i < sortedDates.length; i++) {
+        testDates.push( arr[i][0] )
+    }
+
+
+    Highcharts.chart(div_ID, {
+        chart: {
+            zoomType: 'x'
+        },
+
+        title: {
+            text: 'Tweet Sentiment Values For ' + state
+        },
+
+        subtitle: {
+            text: 'Plotting ' + dates.length + ' tweets!' 
+        },
+
+        tooltip: {
+            valueDecimals: 2
+        },
+
+        xAxis: {
+            type: 'datetime'
+        },
+
+        series: [{
+            data: arr,
+            lineWidth: 0.5,
+            color: '#0066FF',
+            legendColor: '#0066FF',
+            name: 'Tweet Sentiment '
+        }],
+
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                // general options for all series
+                boostThreshold: 1,
+            },
+            line: {
+                // shared options for all line series
+            }
+        }
+    });
 }
 // EOF
